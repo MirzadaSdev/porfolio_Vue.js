@@ -21,8 +21,11 @@
             v-model="form.name"
             placeholder="Enter your name"
             class="w-full py-1 px-4 border border-shadowGray bg-transparent rounded-md focus:ring-2 focus:ring-shadowGray focus:outline-none"
-            required
+            @blur="validateField('name')"
           />
+          <span v-if="errors.name" class="text-red-500 text-xs mt-1 block">
+            {{ errors.name }}
+          </span>
         </div>
         <div>
           <label class="block text-sm font-semibold mb-1">Email</label>
@@ -31,8 +34,11 @@
             v-model="form.email"
             placeholder="Enter your email"
             class="w-full py-1 px-4 border border-shadowGray bg-transparent rounded-md focus:ring-2 focus:ring-shadowGray focus:outline-none"
-            required
+            @blur="validateField('email')"
           />
+          <span v-if="errors.email" class="text-red-500 text-xs mt-1 block">
+            {{ errors.email }}
+          </span>
         </div>
       </div>
       <div>
@@ -42,8 +48,11 @@
           v-model="form.subject"
           placeholder="Enter subject"
           class="w-full py-1 px-4 border border-shadowGray bg-transparent rounded-md focus:ring-2 focus:ring-shadowGray focus:outline-none"
-          required
+          @blur="validateField('subject')"
         />
+        <span v-if="errors.subject" class="text-red-500 text-xs mt-1 block">
+          {{ errors.subject }}
+        </span>
       </div>
       <div>
         <label class="block text-sm font-semibold mb-1">Message</label>
@@ -52,8 +61,11 @@
           rows="5"
           placeholder="Write your message here..."
           class="w-full py-1 px-4 border border-shadowGray bg-transparent rounded-md focus:ring-2 focus:ring-shadowGray focus:outline-none"
-          required
+          @blur="validateField('message')"
         ></textarea>
+        <span v-if="errors.message" class="text-red-500 text-xs mt-1 block">
+          {{ errors.message }}
+        </span>
       </div>
       <div class="text-center">
         <button
@@ -87,6 +99,28 @@
         Redirecting to WhatsApp...
       </p>
     </div>
+
+    <!-- Custom Required Field Dialog -->
+    <div
+      v-if="showDialog"
+      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+    >
+      <div class="bg-[#2f2f2f] rounded-lg shadow-lg p-6 w-80 text-center">
+        <p class="text-emerald-600 font-semibold mb-4">
+          <span v-for="(field, idx) in missingFields" :key="field">
+            The input for <b>{{ fieldLabels[field] }}</b> is required.<br
+              v-if="idx !== missingFields.length - 1"
+            />
+          </span>
+        </p>
+        <button
+          @click="showDialog = false"
+          class="px-4 py-2 bg-primaryOrange text-white rounded hover:bg-orange-500"
+        >
+          OK
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -99,12 +133,53 @@ const form = ref({
   subject: "",
   message: "",
 });
+const errors = ref({
+  name: "",
+  email: "",
+  subject: "",
+  message: "",
+});
 const submitted = ref(false);
+const showDialog = ref(false);
+const missingFields = ref([]);
+
+const fieldLabels = {
+  name: "🧑🏻 Full Name",
+  email: "📧 Email",
+  subject: "🛄 Subject",
+  message: " Message",
+};
 
 // Your WhatsApp number (with country code, no +, no spaces)
 const whatsappNumber = "93776538794"; // Example: "93770000000" (Afghanistan)
 
+function validateField(field) {
+  if (!form.value[field]) {
+    errors.value[field] = `The input for ${fieldLabels[field]} is required`;
+  } else {
+    errors.value[field] = "";
+  }
+}
+
+function validateForm() {
+  let valid = true;
+  missingFields.value = [];
+  Object.keys(form.value).forEach((field) => {
+    validateField(field);
+    if (!form.value[field]) {
+      valid = false;
+      missingFields.value.push(field);
+    }
+  });
+  return valid;
+}
+
 const sendToWhatsApp = () => {
+  if (!validateForm()) {
+    showDialog.value = true;
+    return;
+  }
+
   const text = `Hello! 👋 I would like to hire you.%0A
 *Name:* ${form.value.name}%0A
 *Email:* ${form.value.email}%0A
@@ -118,6 +193,7 @@ const sendToWhatsApp = () => {
     window.open(url, "_blank");
     submitted.value = false;
     form.value = { name: "", email: "", subject: "", message: "" };
+    errors.value = { name: "", email: "", subject: "", message: "" };
   }, 1500);
 };
 </script>
