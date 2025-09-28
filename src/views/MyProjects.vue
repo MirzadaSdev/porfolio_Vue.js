@@ -156,7 +156,7 @@ const projects = ref([
     github: "#",
     challenges:
       "Implemented complex role-based access control, offline database synchronization, and multilingual support.",
-    image: "web1.png",
+    image: "AMS.png",
   },
   {
     id: 2,
@@ -169,7 +169,7 @@ const projects = ref([
     github: "#",
     challenges:
       "Created smooth page transitions and animations while maintaining excellent performance scores.",
-    image: "web2.png",
+    image: "portfolio.png",
   },
 
   // Mobile
@@ -184,7 +184,7 @@ const projects = ref([
     github: "#",
     challenges:
       "Developed realistic 3D dice physics simulation and offline functionality with local storage.",
-    image: "mobile1.png",
+    image: "dice-app.png",
   },
   {
     id: 4,
@@ -197,7 +197,7 @@ const projects = ref([
     github: "#",
     challenges:
       "Built robust validation, encryption, and PDF generation for form submissions.",
-    image: "mobile2.png",
+    image: "data-collection.png",
   },
 
   // UI/UX
@@ -212,7 +212,7 @@ const projects = ref([
     github: null,
     challenges:
       "Designed modular components for rapid prototyping and cross-device consistency.",
-    image: "ui1.png",
+    image: "dashboard.png",
   },
   {
     id: 6,
@@ -221,25 +221,14 @@ const projects = ref([
     description:
       "A sleek, user-friendly e-commerce interface designed for optimal conversion rates.",
     techStack: "Figma",
-    liveDemo: "#",
+    liveDemo:
+      "https://www.figma.com/board/XvlJwLuNgLY9CjG8AieK3z/Untitled?node-id=0-1&t=zvKfOhkzlqg8DLjS-1",
     github: null,
     challenges:
       "Created a design system with reusable components for faster iteration.",
-    image: "ui2.png",
+    image: "e-commerce.png",
   },
-  {
-    id: 7,
-    name: "Finance App UI Kit",
-    category: "UI/UX Design",
-    description:
-      "Mobile banking interface with clean typography and intuitive navigation.",
-    techStack: "Adobe XD",
-    liveDemo: "#",
-    github: null,
-    challenges:
-      "Implemented accessibility-friendly design for visually impaired users.",
-    image: "ui3.png",
-  },
+
   {
     id: 8,
     name: "Healthcare Management Dashboard",
@@ -251,6 +240,19 @@ const projects = ref([
     challenges:
       "Balanced dense information layout with clear hierarchy for ease of use.",
     image: "database1.png",
+  },
+
+  {
+    id: 7,
+    name: "Movie Discovery App",
+    category: "Web Development",
+    description:
+      "high quality, well design and modern web app for finding every kind of movie",
+    techStack: "React.js",
+    liveDemo: "#",
+    github: null,
+    challenges: "",
+    image: "movie-discovery-app.png",
   },
 ]);
 
