@@ -104,28 +104,50 @@
 
           <!-- Action Buttons -->
           <div class="flex space-x-3 mt-auto">
-            <a
-              v-if="project.liveDemo"
-              :href="project.liveDemo"
-              target="_blank"
+            <button
+              @click="handleClick(project.liveDemo)"
               class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-500 shadow transition-all duration-300"
             >
               <FontAwesomeIcon icon="eye" class="mr-2" />
               Live Demo
-            </a>
-            <a
-              v-if="project.github"
-              :href="project.github"
-              target="_blank"
+            </button>
+            <button
+              @click="handleClick(project.github)"
               class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-[#464646] border border-gray-600 hover:border-orange-500 transition-all duration-300"
             >
               <FontAwesomeIcon :icon="['fab', 'github']" class="mr-2" />
               View Code
-            </a>
+            </button>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Secure Policy Dialog -->
+    <transition name="fade">
+      <div
+        v-if="showDialog"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+      >
+        <div
+          class="bg-[#2f2f2f] rounded-xl shadow-xl max-w-md w-full p-6 text-center border border-gray-700"
+        >
+          <h3 class="text-lg font-semibold text-white mb-4">
+            Restricted Access
+          </h3>
+          <p class="text-gray-300 text-sm mb-6">
+            This source code is <span class="text-orange-400">secure</span> and
+            related to governmental policy. It cannot be publicly accessed.
+          </p>
+          <button
+            @click="showDialog = false"
+            class="px-4 py-2 bg-orange-600 hover:bg-orange-500 text-white rounded-md shadow-md transition"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </transition>
   </section>
 </template>
 
@@ -133,18 +155,19 @@
 import { ref, computed } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
+// Category Filter
 const categories = ref([
   "All",
   "Web Development",
   "Mobile App",
   "UI/UX Design",
 ]);
-
 const selectedCategory = ref("All");
 const openAccordion = ref(null);
+const showDialog = ref(false);
 
+// Project List
 const projects = ref([
-  // Web
   {
     id: 1,
     name: "Lectures Authority Management System",
@@ -165,14 +188,12 @@ const projects = ref([
     description:
       "Modern portfolio showcasing my skills and projects with elegant animations.",
     techStack: "Vue 3, Tailwind CSS, GSAP",
-    liveDemo: "#",
-    github: "#",
+    liveDemo: "https://porfolio-vue-js-82nb.vercel.app",
+    github: "https://github.com/MirzadaSdev/porfolio_Vue.js.git",
     challenges:
       "Created smooth page transitions and animations while maintaining excellent performance scores.",
     image: "portfolio.png",
   },
-
-  // Mobile
   {
     id: 3,
     name: "Dice Roller App",
@@ -199,8 +220,6 @@ const projects = ref([
       "Built robust validation, encryption, and PDF generation for form submissions.",
     image: "data-collection.png",
   },
-
-  // UI/UX
   {
     id: 5,
     name: "Creative UI Dashboard",
@@ -228,7 +247,18 @@ const projects = ref([
       "Created a design system with reusable components for faster iteration.",
     image: "e-commerce.png",
   },
-
+  {
+    id: 7,
+    name: "Movie Discovery App",
+    category: "Web Development",
+    description:
+      "High-quality, well-designed modern web app for finding every kind of movie.",
+    techStack: "React.js",
+    liveDemo: "#",
+    github: null,
+    challenges: "",
+    image: "movie-discovery-app.png",
+  },
   {
     id: 8,
     name: "Healthcare Management Dashboard",
@@ -241,30 +271,19 @@ const projects = ref([
       "Balanced dense information layout with clear hierarchy for ease of use.",
     image: "database1.png",
   },
-
-  {
-    id: 7,
-    name: "Movie Discovery App",
-    category: "Web Development",
-    description:
-      "high quality, well design and modern web app for finding every kind of movie",
-    techStack: "React.js",
-    liveDemo: "#",
-    github: null,
-    challenges: "",
-    image: "movie-discovery-app.png",
-  },
 ]);
 
+// Computed filtered projects
 const filteredProjects = computed(() => {
   if (selectedCategory.value === "All") {
     return projects.value.map(enhanceProjectImage);
   }
   return projects.value
-    .filter((project) => project.category === selectedCategory.value)
+    .filter((p) => p.category === selectedCategory.value)
     .map(enhanceProjectImage);
 });
 
+// Helper: resolve image path
 function enhanceProjectImage(project) {
   return {
     ...project,
@@ -272,12 +291,23 @@ function enhanceProjectImage(project) {
   };
 }
 
+// Category change
 const changeCategory = (category) => {
   selectedCategory.value = category;
 };
 
+// Accordion toggle
 const toggleAccordion = (id) => {
   openAccordion.value = openAccordion.value === id ? null : id;
+};
+
+// Handle link click
+const handleClick = (link) => {
+  if (!link || link === "#") {
+    showDialog.value = true;
+  } else {
+    window.open(link, "_blank");
+  }
 };
 </script>
 
@@ -295,5 +325,14 @@ const toggleAccordion = (id) => {
 .accordion-leave-from {
   opacity: 1;
   max-height: 300px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
