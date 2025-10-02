@@ -53,8 +53,8 @@
           Hire Me
         </router-link>
         <a
-          href="/public/Mirzada-SeDev.pdf"
-          download="MirzadaSeDev.pdf"
+          href="/cv.pdf"
+          download="CV.pdf"
           class="md:tracking-wide md:text-base sm:text-sm text-[#E6581B] md:py-1 sm:py-0 sm:px-1 md:px-2 lg:px-3 border-2 text-xs py-1 px-2 border-[#E6581B] hover:text-orange-500 transition-all duration-700 ease-in-out hover:border-orange-500 rounded-lg"
         >
           Download CV
@@ -121,6 +121,7 @@ export default {
         { name: "Laravel", percentage: 80 },
         { name: "JavaScript", percentage: 70 },
         { name: "Vue.js", percentage: 85 },
+        { name: "React.js", percentage: 70 },
       ],
     };
   },

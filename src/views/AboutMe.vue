@@ -52,8 +52,8 @@
       </div>
 
       <a
-        href="/Mirzada-SeDev.pdf"
-        download="MirzadaSeDev.pdf"
+        href="/cv.pdf"
+        download="CV.pdf"
         class="text-white sm:w-fit w-full bg-primaryOrange mt-4 text-sm lg:text-base md:text-sm sm:text-xs md:py-1 md:px-3 sm:py-1 sm:px-2 py-1 px-2 md:tracking-wider sm:tracking-wider rounded hover:bg-orange-500 hover:text-gray-200 transition-all duration-700 text-center"
       >
         <i class="fa-regular fa-circle-down"></i> Download CV
